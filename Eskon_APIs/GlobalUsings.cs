@@ -11,3 +11,6 @@ global using FluentValidation.AspNetCore;
 
 global using Eskon_APIs.Entities;
 global using Eskon_APIs.Persistance;
+global using Eskon_APIs.Abstraction;
+global using Eskon_APIs.Contracts.Authentication;
+global using Eskon_APIs.Services;

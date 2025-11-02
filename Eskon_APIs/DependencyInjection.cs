@@ -27,6 +27,8 @@ public static class DependencyInjection
         services.AddSwaggerServices();
         services.AddMapsterConfig();
 
+        services.AddScoped<IAuthService, AuthService>();
+
         services.AddHttpContextAccessor();
 
         return services;
@@ -56,6 +58,8 @@ public static class DependencyInjection
 
     private static IServiceCollection AddAuthConfig(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddSingleton<IJwtProvider, JwtProvider>();
+
         services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();

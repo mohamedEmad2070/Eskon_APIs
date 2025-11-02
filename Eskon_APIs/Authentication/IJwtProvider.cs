@@ -1,5 +1,4 @@
-﻿using Eskon_APIs.Entities;
-namespace Eskon_APIs.Authentication;
+﻿namespace Eskon_APIs.Authentication;
 
 public interface IJwtProvider
 {

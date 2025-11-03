@@ -6,6 +6,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 using System.Text;
 using Eskon_APIs.Persistance;
+using Eskon_APIs.Settings;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace Eskon_APIs;
 
@@ -28,8 +31,12 @@ public static class DependencyInjection
         services.AddMapsterConfig();
 
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IEmailSender, EmailService>();
+        
 
         services.AddHttpContextAccessor();
+
+        services.Configure<MailSettings>(configuration.GetSection(nameof(MailSettings)));
 
         return services;
     }

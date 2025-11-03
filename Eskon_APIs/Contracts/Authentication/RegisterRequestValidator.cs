@@ -1,5 +1,4 @@
-﻿
-using Eskon_APIs.Abstraction.Consts;
+﻿using Eskon_APIs.Abstraction.Consts;
 
 namespace Eskon_APIs.Contracts.Authentication;
 

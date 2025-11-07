@@ -20,7 +20,18 @@ public static class DependencyInjection
 
         var connectionString = configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string  not found.");
 
-        services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+        services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString,
+        // --- THIS IS THE FIX ---
+        // This tells EF Core to be resilient and retry connecting to the database
+        // if it encounters a transient (temporary) error, like the DB container
+        // not being ready yet.
+        sqlServerOptionsAction: sqlOptions =>
+        {
+            sqlOptions.EnableRetryOnFailure(
+                maxRetryCount: 5, // It will try up to 5 times
+                maxRetryDelay: TimeSpan.FromSeconds(30), // With up to a 30-second delay between tries
+                errorNumbersToAdd: null);
+        }));
         
 
         services.AddSingleton<IJwtProvider, JwtProvider>();

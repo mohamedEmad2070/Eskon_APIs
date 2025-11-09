@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  # This is your .NET API service
+  api:
+    build:
+      context: .
+      dockerfile: Eskon_APIs/Dockerfile # Path to your Dockerfile
+    container_name: eskon_api
+    ports:
+      # Map port 5000 on your computer to port 8080 inside the container
+      - "5000:8080"
+    environment:
+      # This connection string points to the 'db' service below
+      - ConnectionStrings__DefaultConnection=Server=db;Database=EskonDb;User Id=sa;Password=Your_Super_Secret_Password123;TrustServerCertificate=True
+      - ASPNETCORE_ENVIRONMENT=Development 
+      - RUN_MIGRATIONS_ON_STARTUP=true 
+    depends_on:
+      db:
+        condition: service_healthy # <--- NEW: Makes the API wait until the DB is truly ready
+
+  # This is your SQL Server database service
+  db:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    container_name: Eskon-db
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Your_Super_Secret_Password123
+    volumes:
+      - sql-data:/var/opt/mssql
+    # --- NEW HEALTHCHECK SECTION ---
+    # This tells Docker how to check if the database is actually ready for connections
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools18/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "Your_Super_Secret_Password123", "-C", "-Q", "SELECT 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+volumes:
+  sql-data:

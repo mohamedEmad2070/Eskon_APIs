@@ -14,6 +14,7 @@ services:
       # This connection string points to the 'db' service below
       - ConnectionStrings__DefaultConnection=Server=db;Database=EskonDb;User Id=sa;Password=Your_Super_Secret_Password123;TrustServerCertificate=True
       - ASPNETCORE_ENVIRONMENT=Development 
+      - RUN_MIGRATIONS_ON_STARTUP=true 
     depends_on:
       db:
         condition: service_healthy # <--- NEW: Makes the API wait until the DB is truly ready

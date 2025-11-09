@@ -4,11 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDependencies(builder.Configuration);
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-Console.WriteLine("---");
-Console.WriteLine("--- [DEBUG] Verifying Connection String ---");
-Console.WriteLine($"--- > {connectionString}");
-Console.WriteLine("---");
+
 
 var app = builder.Build();
 
@@ -31,26 +27,28 @@ app.MapControllers();
 // ===== PASTE THIS CODE BLOCK BEFORE app.Run() =====
 
 // This block will automatically apply pending EF Core migrations on startup
-try
-{
-    // Create a new dependency injection scope to get the DbContext
-    using (var scope = app.Services.CreateScope())
+if (Environment.GetEnvironmentVariable("RUN_MIGRATIONS_ON_STARTUP") == "true")
+{ 
+    try
     {
-        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>(); // <-- IMPORTANT: Replace 'YourDbContext' with your actual DbContext class name
+        // Create a new dependency injection scope to get the DbContext
+        using (var scope = app.Services.CreateScope())
+        {
+            var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-        // Apply pending migrations. This will also create the database if it doesn't exist.
-        await dbContext.Database.MigrateAsync();
+            // Apply pending migrations. This will also create the database if it doesn't exist.
+            await dbContext.Database.MigrateAsync();
+        }
+    }
+    catch (Exception ex)
+    {
+        // Log the error if migrations fail
+        var logger = app.Services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while migrating the database.");
+        // Optionally, you might want to stop the application if migrations fail
+        // For now, we'll just log it.
     }
 }
-catch (Exception ex)
-{
-    // Log the error if migrations fail
-    var logger = app.Services.GetRequiredService<ILogger<Program>>();
-    logger.LogError(ex, "An error occurred while migrating the database.");
-    // Optionally, you might want to stop the application if migrations fail
-    // For now, we'll just log it.
-}
-
 // =======================================================
 #endregion
 

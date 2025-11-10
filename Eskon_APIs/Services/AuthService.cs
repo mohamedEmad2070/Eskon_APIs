@@ -148,7 +148,7 @@ public class AuthService(
 
     public async Task<Result> ConfirmEmailAsync(ConfirmEmailRequest request)
     {
-        if (await _userManager.FindByIdAsync(request.UserId) is not { } user)
+        if (await _userManager.FindByEmailAsync(request.Email) is not { } user)
             return Result.Failure(UserErrors.InvalidCode);
 
         if (user.EmailConfirmed)

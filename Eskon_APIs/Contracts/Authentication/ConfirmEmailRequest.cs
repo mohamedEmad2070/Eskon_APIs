@@ -2,6 +2,6 @@
 
 
 public record ConfirmEmailRequest (
-    string UserId,
+    string Email,
     string Code
     );

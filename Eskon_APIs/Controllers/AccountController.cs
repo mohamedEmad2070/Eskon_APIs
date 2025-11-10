@@ -8,7 +8,7 @@ namespace Eskon_APIs.Controllers;
 
 [Route("[controller]")]
 [ApiController]
-[Authorize]
+//[Authorize]
 public class AccountController(IUserService userService, ILogger<AccountController> logger) : ControllerBase
 {
     private readonly IUserService _userService = userService;
@@ -19,5 +19,11 @@ public class AccountController(IUserService userService, ILogger<AccountControll
     {
         var result = await _userService.GetProfileAsync(User.GetUserId()!,cancellationToken);
         return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
+    }
+
+    [HttpGet("test11")]
+    public async Task<IActionResult> test(CancellationToken cancellationToken)
+    {
+       return Ok("test11");
     }
 }

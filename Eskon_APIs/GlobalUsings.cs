@@ -7,6 +7,7 @@ global using Microsoft.AspNetCore.Identity;
 global using Mapster;
 global using FluentValidation;
 global using FluentValidation.AspNetCore;
+global using System.ComponentModel.DataAnnotations.Schema;
 
 
 global using Eskon_APIs.Entities;

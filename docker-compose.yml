@@ -27,7 +27,7 @@ services:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=Your_Super_Secret_Password123
     ports:
-      - "1433:1433"
+      - "1434:1433"
     volumes:
       - sql-data:/var/opt/mssql
     # --- NEW HEALTHCHECK SECTION ---

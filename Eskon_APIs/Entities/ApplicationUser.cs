@@ -10,4 +10,10 @@ public sealed class ApplicationUser:IdentityUser
     public bool IsDisabled { get; set; }
 
     public List<RefreshToken> RefreshTokens { get; set; } = [];
+
+    #region Added this
+    public ICollection<House> OwnedHouses { get; set; } = new List<House>(); 
+    public ICollection<Review> Reviews { get; set; } = new List<Review>();
+    public ICollection<SavedList> SavedLists { get; set; } = new List<SavedList>();
+    #endregion
 }

@@ -1,14 +1,11 @@
 using Eskon_APIs.Contracts.Users;
 using Eskon_APIs.Extensions;
-using Eskon_APIs.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Eskon_APIs.Controllers;
 
 [Route("[controller]")]
 [ApiController]
-//[Authorize]
+[Authorize]
 public class AccountController(IUserService userService, ILogger<AccountController> logger) : ControllerBase
 {
     private readonly IUserService _userService = userService;
@@ -21,9 +18,12 @@ public class AccountController(IUserService userService, ILogger<AccountControll
         return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
     }
 
-    [HttpGet("test11")]
-    public async Task<IActionResult> test(CancellationToken cancellationToken)
+
+    [HttpPut("change-password")]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
     {
-       return Ok("test11");
+        var result = await _userService.ChangePasswordAsync(User.GetUserId()!, request);
+
+        return result.IsSuccess ? NoContent() : result.ToProblem();
     }
 }

@@ -9,7 +9,7 @@ namespace Eskon_APIs.Controllers;
 /// All endpoints require authentication via JWT Bearer token.
 /// </summary>
 [Route("[controller]")]
-[ApiController]
+[ApiController] 
 [Authorize]
 public class AccountController(IUserService userService, ILogger<AccountController> logger) : ControllerBase
 {

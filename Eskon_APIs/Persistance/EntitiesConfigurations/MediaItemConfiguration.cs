@@ -19,5 +19,9 @@ public class MediaItemConfiguration : IEntityTypeConfiguration<MediaItem>
 
         builder.HasIndex(m => new { m.HouseId, m.SortOrder });
         builder.HasIndex(m => m.HouseId);
+
+        builder.HasIndex(m => new { m.HouseId, m.IsCover })
+            .IsUnique()
+            .HasFilter("[IsCover] = 1");
     }
 }

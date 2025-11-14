@@ -4,6 +4,7 @@ using Eskon_APIs.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Eskon_APIs.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251114023736_updaterole")]
+    partial class updaterole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,26 +85,6 @@ namespace Eskon_APIs.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "92b75286-d8f8-4061-9995-e6e23ccdee94",
-                            ConcurrencyStamp = "f51e5a91-bced-49c2-8b86-c2e170c0846c",
-                            IsDefault = false,
-                            IsDisabled = false,
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "9eaa03df-8e4f-4161-85de-0f6e5e30bfd4",
-                            ConcurrencyStamp = "5ee6bc12-5cb0-4304-91e7-6a00744e042a",
-                            IsDefault = true,
-                            IsDisabled = false,
-                            Name = "Member",
-                            NormalizedName = "MEMBER"
-                        });
                 });
 
             modelBuilder.Entity("Eskon_APIs.Entities.ApplicationUser", b =>
@@ -180,27 +163,6 @@ namespace Eskon_APIs.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "dd026d4c-abe0-43ef-9ecd-5d99e737bc01",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "99d2bbc6-bc54-4248-a172-a77de3ae4430",
-                            Email = "admin@Eskon.com",
-                            EmailConfirmed = true,
-                            FirstName = "Eskon",
-                            IsDisabled = false,
-                            LastName = "Admin",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@ESKON.COM",
-                            NormalizedUserName = "ADMIN@ESKON.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIW3NlZn9JYsa1r4A98wfj4CNoSIfdtdMYb7T3JlYn3ZZenM6GeinhFZqJVYCcTQ7A==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "55BF92C9EF0249CDA210D85D1A851BC9",
-                            TwoFactorEnabled = false,
-                            UserName = "admin@Eskon.com"
-                        });
                 });
 
             modelBuilder.Entity("Eskon_APIs.Entities.House", b =>
@@ -502,13 +464,6 @@ namespace Eskon_APIs.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "dd026d4c-abe0-43ef-9ecd-5d99e737bc01",
-                            RoleId = "92b75286-d8f8-4061-9995-e6e23ccdee94"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

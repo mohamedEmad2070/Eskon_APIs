@@ -79,7 +79,7 @@ public static class DependencyInjection
     {
         services.AddSingleton<IJwtProvider, JwtProvider>();
 
-        services.AddIdentity<ApplicationUser, IdentityRole>()
+        services.AddIdentity<ApplicationUser, ApplicationRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 

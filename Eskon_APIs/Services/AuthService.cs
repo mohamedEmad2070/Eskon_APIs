@@ -1,4 +1,5 @@
 ﻿
+using Eskon_APIs.Abstraction.Consts;
 using Eskon_APIs.Authentication;
 using Eskon_APIs.Errors;
 using Eskon_APIs.Helpers;
@@ -37,7 +38,8 @@ public class AuthService(
 
         if (result.Succeeded)
         {
-            var (token, expiresIn) = _jwtProvider.GenerateToken(user);
+            var userRoles = await _userManager.GetRolesAsync(user);
+            var (token, expiresIn) = _jwtProvider.GenerateToken(user,userRoles);
             var refreshToken = GenerateRefreshToken();
             var refreshTokenExpiration = DateTime.UtcNow.AddDays(_refreshTokenExpiryDays);
 
@@ -77,7 +79,9 @@ public class AuthService(
 
         userRefreshToken.RevokedOn = DateTime.UtcNow;
 
-        var (newToken, expiresIn) = _jwtProvider.GenerateToken(user);
+        var userRoles = await _userManager.GetRolesAsync(user);
+
+        var (newToken, expiresIn) = _jwtProvider.GenerateToken(user, userRoles);
         var newRefreshToken = GenerateRefreshToken();
         var refreshTokenExpiration = DateTime.UtcNow.AddDays(_refreshTokenExpiryDays);
 
@@ -167,8 +171,13 @@ public class AuthService(
 
         var result = await _userManager.ConfirmEmailAsync(user, code);
 
-        if (result.Succeeded)
+        if (result.Succeeded) { 
+
+            await _userManager.AddToRoleAsync(user, DefaultRoles.Member);
+
             return Result.Success();
+
+        }
 
         var error = result.Errors.First();
 

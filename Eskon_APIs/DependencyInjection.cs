@@ -1,14 +1,15 @@
 ﻿using Eskon_APIs.Authentication;
 using Eskon_APIs.Entities;
-using MapsterMapper;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Reflection;
-using System.Text;
 using Eskon_APIs.Persistance;
 using Eskon_APIs.Settings;
+using MapsterMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Reflection;
+using System.Text;
 
 namespace Eskon_APIs;
 
@@ -53,9 +54,19 @@ public static class DependencyInjection
         return services;
     }
 
-    private static IServiceCollection AddSwaggerServices(this IServiceCollection services) {
+    private static IServiceCollection AddSwaggerServices(this IServiceCollection services)
+    {
+        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
+        services.AddSwaggerGen(options =>
+        {
+      
+
+            var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+
+          
+        });
         return services;
     }
     private static IServiceCollection AddMapsterConfig(this IServiceCollection services)

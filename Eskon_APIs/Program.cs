@@ -33,6 +33,7 @@ if (!app.Environment.IsDevelopment())
 // ✅ Enable CORS BEFORE Auth & Controllers
 app.UseCors("AllowAngular");
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

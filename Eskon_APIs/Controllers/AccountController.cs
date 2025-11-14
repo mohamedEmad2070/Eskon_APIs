@@ -1,3 +1,4 @@
+using Eskon_APIs.Abstraction.Consts;
 using Eskon_APIs.Contracts.Users;
 using Eskon_APIs.Extensions;
 
@@ -10,7 +11,6 @@ namespace Eskon_APIs.Controllers;
 /// </summary>
 [Route("[controller]")]
 [ApiController] 
-[Authorize]
 public class AccountController(IUserService userService, ILogger<AccountController> logger) : ControllerBase
 {
     private readonly IUserService _userService = userService;
@@ -33,6 +33,7 @@ public class AccountController(IUserService userService, ILogger<AccountControll
     /// <response code="500">Internal server error while retrieving the profile</response>
     [HttpGet("profile")]
     [Produces("application/json")]
+    [Authorize(Roles = DefaultRoles.Admin)]
     public async Task<IActionResult> GetProfile(CancellationToken cancellationToken)
     {
         var result = await _userService.GetProfileAsync(User.GetUserId()!,cancellationToken);

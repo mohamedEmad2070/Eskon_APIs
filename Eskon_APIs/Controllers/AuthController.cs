@@ -194,7 +194,7 @@ public class AuthController(IAuthService authService, ILogger<AuthController> lo
     /// Initiates password reset by sending a reset code to the user's email.
     /// </summary>
     /// <remarks>
-    /// Sample request:
+    /// Sample request: 
     ///
     ///     POST /auth/forget-password
     ///     {

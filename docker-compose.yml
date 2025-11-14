@@ -9,7 +9,7 @@ services:
     container_name: eskon_api
     ports:
       # Map port 5000 on your computer to port 8080 inside the container
-      - "5000:8080"
+      - "8088:8080"
     environment:
       # This connection string points to the 'db' service below
       - ConnectionStrings__DefaultConnection=Server=db;Database=EskonDb;User Id=sa;Password=Your_Super_Secret_Password123;TrustServerCertificate=True

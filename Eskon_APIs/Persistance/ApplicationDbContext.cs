@@ -9,6 +9,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 {
     DbSet<Test>Tests => Set<Test>();
     public DbSet<House> House { get; set; }
+    public DbSet<SavedList> SavedList { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

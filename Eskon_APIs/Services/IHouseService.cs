@@ -4,5 +4,5 @@ namespace Eskon_APIs.Services;
 
 public interface IHouseService
 {
-    Task<List<HouseSummaryResponse>> GetAllAsync(CancellationToken cancellationToken = default);
+    Task<List<HouseSummaryResponse>> GetAllAsync(string? CurrentUserId, CancellationToken cancellationToken = default);
 }

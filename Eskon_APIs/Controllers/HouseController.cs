@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Eskon_APIs.Controllers;
 
@@ -16,7 +17,12 @@ public class HouseController : ControllerBase
     [HttpGet("")]
     public async Task<IActionResult> GetAllHouses(CancellationToken cancellationToken)
     {
-        var houses = await _houseService.GetAllAsync(cancellationToken);
+        var CurrentUserId = User.Identity?.IsAuthenticated == true
+            ? User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+            : null;
+
+        var houses = await _houseService.GetAllAsync(CurrentUserId, cancellationToken);
+
         return Ok(houses);
     }
 }

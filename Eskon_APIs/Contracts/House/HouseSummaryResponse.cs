@@ -10,5 +10,5 @@ public class HouseSummaryResponse
     public double Area { get; set; }
     public string CoverImageUrl { get; set; }
     public string FormattedLocation { get; set; }
-    //public bool IsSavedByCurrentUser { get; set; }
+    public bool IsSavedByCurrentUser { get; set; }
 }

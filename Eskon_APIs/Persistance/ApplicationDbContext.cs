@@ -5,9 +5,10 @@ using System.Reflection;
 namespace Eskon_APIs.Persistance;
 
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-    : IdentityDbContext<ApplicationUser>(options)
+    : IdentityDbContext<ApplicationUser,ApplicationRole,string>(options)
 {
-    DbSet<Test>Tests => Set<Test>();
+
+    
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

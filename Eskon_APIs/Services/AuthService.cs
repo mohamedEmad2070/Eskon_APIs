@@ -1,5 +1,4 @@
-﻿
-using Eskon_APIs.Abstraction.Consts;
+﻿using Eskon_APIs.Abstraction.Consts;
 using Eskon_APIs.Authentication;
 using Eskon_APIs.Errors;
 using Eskon_APIs.Helpers;
@@ -260,7 +259,7 @@ public class AuthService(
             templateModel: new Dictionary<string, string>
             {
                 { "{{name}}", user.FirstName },
-                    { "{{action_url}}", $"{origin}/auth/emailConfirmation?userId={user.Id}&code={code}" }
+                { "{{action_url}}", $"{origin}/auth/emailConfirmation?code={code}" }
             }
         );
 
@@ -281,6 +280,5 @@ public class AuthService(
         );
 
         await _emailSender.SendEmailAsync(user.Email!, "✅ Eskon: Change Password", emailBody);
-    
     }
 }

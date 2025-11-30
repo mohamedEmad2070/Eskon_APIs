@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Identity;
-
 namespace Eskon_APIs.Entities;
 
 public sealed class ApplicationRole : IdentityRole

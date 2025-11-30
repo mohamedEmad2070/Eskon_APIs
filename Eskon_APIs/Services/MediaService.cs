@@ -1,6 +1,5 @@
 ﻿using Eskon_APIs.Contracts.MediaItem;
 using Eskon_APIs.Errors;
-using Microsoft.AspNetCore.Hosting;
 
 namespace Eskon_APIs.Services;
 
@@ -18,7 +17,7 @@ public class MediaService : IMediaService
     public async Task<Result> DeleteImageAsync(int houseId, string ownerId, int mediaItemId, CancellationToken cancellationToken = default)
     {
         var mediaItem = await _context.MediaItem
-        .Include(m => m.House) 
+        .Include(m => m.House)
         .FirstOrDefaultAsync(m => m.MediaId == mediaItemId && m.HouseId == houseId, cancellationToken);
 
         if (mediaItem is null)
@@ -146,6 +145,14 @@ public class MediaService : IMediaService
         await _context.SaveChangesAsync(cancellationToken);
 
         var response = mediaItem.Adapt<MediaItemResponse>();
+
+        var baseUrl = "http://localhost:8088";
+
+        if (!string.IsNullOrEmpty(response.URL) && response.URL.StartsWith("/"))
+        {
+            response.URL = $"{baseUrl}{response.URL}";
+        }
+
         return Result.Success(response);
     }
 }

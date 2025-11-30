@@ -1,5 +1,6 @@
 ﻿using Eskon_APIs.Contracts.Amenity;
 using Eskon_APIs.Contracts.Location;
+using Eskon_APIs.Contracts.MediaItem;
 
 namespace Eskon_APIs.Contracts.House;
 
@@ -18,7 +19,7 @@ public class HouseDetailResponse
 
     public LocationResponse Location { get; set; }
 
-    public List<string> ImageUrls { get; set; } = new();
+    public List<MediaItemResponse> MediaItems { get; set; } = new();
 
     public List<AmenityResponse> Amenities { get; set; } = new();
 

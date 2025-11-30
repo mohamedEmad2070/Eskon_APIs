@@ -25,7 +25,7 @@ public class LocationConfiguration : IEntityTypeConfiguration<Location>
 
         builder.Property(l => l.BuildingNumber)
             .IsRequired()
-            .HasMaxLength(20); 
+            .HasMaxLength(20);
         #endregion
 
         builder.HasMany(l => l.Houses)

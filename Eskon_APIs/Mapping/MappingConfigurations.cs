@@ -27,7 +27,6 @@ public class MappingConfigurations : IRegister
 
         config.NewConfig<House, HouseDetailResponse>()
             .Map(dest => dest.Amenities, src => src.HouseAmenities.Select(ha => ha.Amenity))
-            .Map(dest => dest.ImageUrls, src => src.MediaItems.Select(mi => mi.URL))
             .Map(dest => dest.Owner.FullName, src => $"{src.Owner.FirstName} {src.Owner.LastName}")
             .Map(dest => dest.Owner.UserId, src => src.OwnerId)
             .Map(dest => dest.Owner.Email, src => src.Owner.Email);

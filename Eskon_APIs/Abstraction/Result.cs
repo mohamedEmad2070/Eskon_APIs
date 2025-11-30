@@ -34,7 +34,7 @@ public class Result<TValue> : Result
     {
         _value = value;
     }
-    
-    public TValue Value => IsSuccess ? 
+
+    public TValue Value => IsSuccess ?
         _value! : throw new InvalidOperationException("Faliar Result Cannot Have Value");
 }

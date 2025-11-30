@@ -1,8 +1,5 @@
 ﻿using Eskon_APIs.Errors;
 using Eskon_APIs.Extensions;
-using Eskon_APIs.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Eskon_APIs.Controllers;
 

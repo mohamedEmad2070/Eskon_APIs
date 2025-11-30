@@ -1,13 +1,9 @@
 ﻿using Eskon_APIs.Authentication;
-using Eskon_APIs.Entities;
-using Eskon_APIs.Persistance;
 using Eskon_APIs.Settings;
 using MapsterMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.IdentityModel.Tokens;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 using System.Text;
 
@@ -33,7 +29,7 @@ public static class DependencyInjection
                 maxRetryDelay: TimeSpan.FromSeconds(30), // With up to a 30-second delay between tries
                 errorNumbersToAdd: null);
         }));
-        
+
 
         services.AddSingleton<IJwtProvider, JwtProvider>();
 

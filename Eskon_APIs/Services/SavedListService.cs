@@ -1,7 +1,4 @@
-﻿using Eskon_APIs.Entities;
-using Eskon_APIs.Errors;
-using Eskon_APIs.Persistance;
-using Microsoft.EntityFrameworkCore;
+﻿using Eskon_APIs.Errors;
 
 namespace Eskon_APIs.Services;
 

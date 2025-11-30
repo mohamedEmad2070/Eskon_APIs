@@ -1,5 +1,4 @@
-﻿using Eskon_APIs.Contracts.Location;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Eskon_APIs.Contracts.House;
 

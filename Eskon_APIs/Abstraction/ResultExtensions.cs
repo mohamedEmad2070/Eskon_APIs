@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿namespace Eskon_APIs.Abstraction;
 
-namespace Eskon_APIs.Abstraction;
 public static class ResultExtensions
 {
     public static ObjectResult ToProblem(this Result result)
@@ -14,7 +13,7 @@ public static class ResultExtensions
         problemDetails!.Extensions = new Dictionary<string, object?>
          {
              {
-                 "errors", new[]{ 
+                 "errors", new[]{
                      result.Error.Code,
                         result.Error.Description
                  }

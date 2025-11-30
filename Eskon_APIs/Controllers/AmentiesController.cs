@@ -1,7 +1,4 @@
 ﻿using Eskon_APIs.Contracts.Amenity;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Eskon_APIs.Controllers;
 
@@ -31,7 +28,7 @@ public class AmenitiesController : ControllerBase
     /// This endpoint returns a list of all amenities in the system.
     /// No authentication is required to view amenities.
     /// </remarks>
- /// <param name="cancellationToken">Cancellation token for the async operation.</param>
+    /// <param name="cancellationToken">Cancellation token for the async operation.</param>
     /// <returns>A list of all amenities.</returns>
     /// <response code="200">Returns the list of all amenities.</response>
     [HttpGet("")]
@@ -47,15 +44,15 @@ public class AmenitiesController : ControllerBase
     /// <summary>
     /// Retrieves a specific amenity by its ID.
     /// </summary>
-  /// <remarks>
+    /// <remarks>
     /// This endpoint returns detailed information about a specific amenity.
     /// No authentication is required to view amenity details.
     /// </remarks>
     /// <param name="id">The unique identifier of the amenity.</param>
     /// <param name="cancellationToken">Cancellation token for the async operation.</param>
     /// <returns>The amenity details.</returns>
- /// <response code="200">Returns the amenity details.</response>
-  /// <response code="404">Amenity not found.</response>
+    /// <response code="200">Returns the amenity details.</response>
+    /// <response code="404">Amenity not found.</response>
     [HttpGet("{id}")]
     [AllowAnonymous]
     [ProducesResponseType(typeof(AmenityResponse), StatusCodes.Status200OK)]
@@ -63,24 +60,24 @@ public class AmenitiesController : ControllerBase
     public async Task<IActionResult> Get([FromRoute] int id, CancellationToken cancellationToken = default)
     {
         var amenityResult = await _amenityService.GetAsync(id, cancellationToken);
-   
-        return amenityResult.IsSuccess ? Ok(amenityResult.Value) : 
+
+        return amenityResult.IsSuccess ? Ok(amenityResult.Value) :
    Problem(statusCode: StatusCodes.Status404NotFound, title: amenityResult.Error.Code, detail: amenityResult.Error.Description);
     }
 
-  /// <summary>
+    /// <summary>
     /// Creates a new amenity.
     /// </summary>
     /// <remarks>
     /// This endpoint allows administrators to add a new amenity to the system.
     /// 
- /// Requirements:
+    /// Requirements:
     /// - User must be authenticated with role 'Admin'
     /// - AmenityName is required
     /// - Category is optional
     /// </remarks>
     /// <param name="amenityRequest">The amenity creation request containing amenity details.</param>
-/// <param name="cancellationToken">Cancellation token for the async operation.</param>
+    /// <param name="cancellationToken">Cancellation token for the async operation.</param>
     /// <returns>The newly created amenity.</returns>
     /// <response code="201">Amenity created successfully. Returns the created amenity with the assigned ID.</response>
     /// <response code="400">Bad request - validation failed (e.g., missing required fields).</response>
@@ -94,24 +91,24 @@ public class AmenitiesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<IActionResult> Add([FromBody] AmenityRequest amenityRequest, CancellationToken cancellationToken = default)
     {
-    var addedAmenity = await _amenityService.AddAsync(amenityRequest, cancellationToken);
+        var addedAmenity = await _amenityService.AddAsync(amenityRequest, cancellationToken);
 
         return CreatedAtAction(nameof(Get), new { id = addedAmenity.AmenityId }, addedAmenity);
- }
+    }
 
     /// <summary>
-  /// Deletes an amenity.
+    /// Deletes an amenity.
     /// </summary>
-  /// <remarks>
-  /// This endpoint allows administrators to delete an amenity from the system.
+    /// <remarks>
+    /// This endpoint allows administrators to delete an amenity from the system.
     /// 
-  /// Requirements:
+    /// Requirements:
     /// - User must be authenticated with role 'Admin'
     /// - The amenity must exist
     /// 
     /// Note: Deleting an amenity may affect houses that have this amenity listed.
     /// </remarks>
-  /// <param name="id">The unique identifier of the amenity to delete.</param>
+    /// <param name="id">The unique identifier of the amenity to delete.</param>
     /// <param name="cancellationToken">Cancellation token for the async operation.</param>
     /// <returns>No content on success.</returns>
     /// <response code="204">Amenity deleted successfully.</response>
@@ -124,11 +121,11 @@ public class AmenitiesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
- public async Task<IActionResult> Delete([FromRoute] int id, CancellationToken cancellationToken = default)
-  {
+    public async Task<IActionResult> Delete([FromRoute] int id, CancellationToken cancellationToken = default)
+    {
         var deleteResult = await _amenityService.DeleteAsync(id, cancellationToken);
 
-        return deleteResult.IsSuccess ? NoContent() : 
+        return deleteResult.IsSuccess ? NoContent() :
             Problem(statusCode: StatusCodes.Status404NotFound, title: deleteResult.Error.Code, detail: deleteResult.Error.Description);
     }
 
@@ -155,7 +152,7 @@ public class AmenitiesController : ControllerBase
     /// <response code="401">Unauthorized - user is not authenticated.</response>
     /// <response code="403">Forbidden - user does not have Admin role.</response>
     /// <response code="404">Amenity not found.</response>
-  [HttpPut("{id}")]
+    [HttpPut("{id}")]
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -164,9 +161,9 @@ public class AmenitiesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Update([FromRoute] int id, [FromBody] AmenityRequest amenityRequest, CancellationToken cancellationToken = default)
     {
-    var updateResult = await _amenityService.UpdateAsync(id, amenityRequest, cancellationToken);
+        var updateResult = await _amenityService.UpdateAsync(id, amenityRequest, cancellationToken);
 
-        return updateResult.IsSuccess ? NoContent() : 
+        return updateResult.IsSuccess ? NoContent() :
   Problem(statusCode: StatusCodes.Status404NotFound, title: updateResult.Error.Code, detail: updateResult.Error.Description);
     }
 }

@@ -11,7 +11,7 @@ public class AmenityResponse
     public int AmenityId { get; set; }
 
     /// <summary>
- /// Gets or sets the name of the amenity.
+    /// Gets or sets the name of the amenity.
     /// </summary>
     /// <remarks>
     /// Examples: "WiFi", "Parking", "Swimming Pool", "Air Conditioning", "Garden"
@@ -20,7 +20,7 @@ public class AmenityResponse
 
     /// <summary>
     /// Gets or sets the category of the amenity.
-  /// </summary>
+    /// </summary>
     /// <remarks>
     /// Examples: "Connectivity", "Parking", "Recreation", "Climate Control", "Outdoor"
     /// </remarks>

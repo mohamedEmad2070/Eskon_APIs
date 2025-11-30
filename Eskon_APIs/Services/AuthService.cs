@@ -2,10 +2,8 @@
 using Eskon_APIs.Authentication;
 using Eskon_APIs.Errors;
 using Eskon_APIs.Helpers;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -38,7 +36,7 @@ public class AuthService(
         if (result.Succeeded)
         {
             var userRoles = await _userManager.GetRolesAsync(user);
-            var (token, expiresIn) = _jwtProvider.GenerateToken(user,userRoles);
+            var (token, expiresIn) = _jwtProvider.GenerateToken(user, userRoles);
             var refreshToken = GenerateRefreshToken();
             var refreshTokenExpiration = DateTime.UtcNow.AddDays(_refreshTokenExpiryDays);
 
@@ -52,7 +50,7 @@ public class AuthService(
             var isAdmin = userRoles.Contains("Admin");  // 👈 replace with your admin role name
 
 
-            var response = new AuthResponse(user.Id, user.Email, user.FirstName, user.LastName, token, expiresIn, refreshToken, refreshTokenExpiration,isAdmin);
+            var response = new AuthResponse(user.Id, user.Email, user.FirstName, user.LastName, token, expiresIn, refreshToken, refreshTokenExpiration, isAdmin);
 
             return Result.Success(response);
         }
@@ -94,7 +92,7 @@ public class AuthService(
         var isAdmin = userRoles.Contains("Admin");  // 👈 replace with your admin role nam
         await _userManager.UpdateAsync(user);
 
-        var response = new AuthResponse(user.Id, user.Email, user.FirstName, user.LastName, newToken, expiresIn, newRefreshToken, refreshTokenExpiration,isAdmin);
+        var response = new AuthResponse(user.Id, user.Email, user.FirstName, user.LastName, newToken, expiresIn, newRefreshToken, refreshTokenExpiration, isAdmin);
 
         return Result.Success(response);
     }
@@ -172,7 +170,8 @@ public class AuthService(
 
         var result = await _userManager.ConfirmEmailAsync(user, code);
 
-        if (result.Succeeded) { 
+        if (result.Succeeded)
+        {
 
             await _userManager.AddToRoleAsync(user, DefaultRoles.Member);
 

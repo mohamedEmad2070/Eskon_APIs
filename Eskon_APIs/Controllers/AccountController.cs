@@ -9,7 +9,7 @@ namespace Eskon_APIs.Controllers;
 /// All endpoints require authentication via JWT Bearer token.
 /// </summary>
 [Route("[controller]")]
-[ApiController] 
+[ApiController]
 [Authorize]
 public class AccountController(IUserService userService, ILogger<AccountController> logger) : ControllerBase
 {
@@ -35,7 +35,7 @@ public class AccountController(IUserService userService, ILogger<AccountControll
     [Produces("application/json")]
     public async Task<IActionResult> GetProfile(CancellationToken cancellationToken)
     {
-        var result = await _userService.GetProfileAsync(User.GetUserId()!,cancellationToken);
+        var result = await _userService.GetProfileAsync(User.GetUserId()!, cancellationToken);
         return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
     }
 

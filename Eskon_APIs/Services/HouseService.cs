@@ -1,18 +1,17 @@
 ﻿using Eskon_APIs.Contracts.House;
-using Eskon_APIs.Entities;
 using Eskon_APIs.Errors;
-using Microsoft.EntityFrameworkCore;
-using System.Threading;
 
 namespace Eskon_APIs.Services;
 
 public class HouseService : IHouseService
 {
     private readonly ApplicationDbContext _context;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public HouseService(ApplicationDbContext context)
+    public HouseService(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
     {
         _context = context;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     public async Task<Result<HouseDetailResponse>> CreateAsync(CreateHouseRequest request, string ownerId, CancellationToken cancellationToken = default)
@@ -23,7 +22,7 @@ public class HouseService : IHouseService
         {
             return Result.Failure<HouseDetailResponse>(HouseErrors.LocationNotFound);
         }
-        
+
         var foundAmenitiesCount = await _context.Amenity.CountAsync(a => request.AmenityIds.Contains(a.AmenityId), cancellationToken);
         if (foundAmenitiesCount != request.AmenityIds.Count)
         {
@@ -61,6 +60,15 @@ public class HouseService : IHouseService
 
         var response = createdHouseWithDetails.Adapt<HouseDetailResponse>();
 
+        var baseUrl = "http://localhost:8088";
+        foreach (var mediaItem in response.MediaItems)
+        {
+            if (mediaItem.URL != null && mediaItem.URL.StartsWith("/"))
+            {
+                mediaItem.URL = baseUrl + mediaItem.URL;
+            }
+        }
+
         response.isSavedByCurrrentUser = false;
 
         return Result.Success(response);
@@ -96,19 +104,30 @@ public class HouseService : IHouseService
             .Include(h => h.Location)
             .ToListAsync(cancellationToken);
 
-       
+
         var savedHousesIds = CurrentUserId != null
             ? await _context.SavedList
             .Where(SavedList => SavedList.UserId == CurrentUserId)
             .Select(SavedList => SavedList.HouseId)
             .ToListAsync(cancellationToken) : new List<int>();
-        
 
         var houseSummaryResponses = houses.Adapt<List<HouseSummaryResponse>>();
 
-        foreach (var house in houseSummaryResponses)
+        var baseUrl = "http://localhost:8088";
+
+        for (int i = 0; i < houseSummaryResponses.Count; i++)
         {
-            house.IsSavedByCurrentUser = savedHousesIds.Contains(house.HouseId);
+            var summaryResponse = houseSummaryResponses[i];
+            var originalHouse = houses[i];
+
+            summaryResponse.IsSavedByCurrentUser = savedHousesIds.Contains(summaryResponse.HouseId);
+
+            var coverImage = originalHouse.MediaItems.FirstOrDefault(m => m.IsCover) ?? originalHouse.MediaItems.FirstOrDefault();
+
+            if (coverImage != null && !string.IsNullOrEmpty(coverImage.URL) && coverImage.URL.StartsWith("/"))
+            {
+                summaryResponse.CoverImageUrl = $"{baseUrl}{coverImage.URL}";
+            }
         }
 
         return houseSummaryResponses;
@@ -122,7 +141,7 @@ public class HouseService : IHouseService
             .Include(h => h.MediaItems)
             .Include(h => h.HouseAmenities)
                 .ThenInclude(ha => ha.Amenity)
-            .AsNoTracking() 
+            .AsNoTracking()
             .FirstOrDefaultAsync(h => h.HouseId == id, cancellationToken);
 
         if (house is null)
@@ -131,6 +150,16 @@ public class HouseService : IHouseService
         }
 
         var response = house.Adapt<HouseDetailResponse>();
+
+        var baseUrl = "http://localhost:8088";
+
+        foreach (var mediaItem in response.MediaItems)
+        {
+            if (!string.IsNullOrEmpty(mediaItem.URL) && mediaItem.URL.StartsWith("/"))
+            {
+                mediaItem.URL = $"{baseUrl}{mediaItem.URL}";
+            }
+        }
 
         if (string.IsNullOrEmpty(currentUserId))
         {
@@ -164,9 +193,21 @@ public class HouseService : IHouseService
 
         var houseSummaryResponses = myHouses.Adapt<List<HouseSummaryResponse>>();
 
-        foreach (var house in houseSummaryResponses)
+        var baseUrl = "http://localhost:8088";
+
+        for (int i = 0; i < houseSummaryResponses.Count; i++)
         {
-            house.IsSavedByCurrentUser = savedHousesIds.Contains(house.HouseId);
+            var summaryResponse = houseSummaryResponses[i];
+            var originalHouse = myHouses[i];
+
+            summaryResponse.IsSavedByCurrentUser = savedHousesIds.Contains(summaryResponse.HouseId);
+
+            var coverImage = originalHouse.MediaItems.FirstOrDefault(m => m.IsCover) ?? originalHouse.MediaItems.FirstOrDefault();
+
+            if (coverImage != null && !string.IsNullOrEmpty(coverImage.URL) && coverImage.URL.StartsWith("/"))
+            {
+                summaryResponse.CoverImageUrl = $"{baseUrl}{coverImage.URL}";
+            }
         }
 
         return houseSummaryResponses;

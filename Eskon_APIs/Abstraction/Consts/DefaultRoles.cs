@@ -1,4 +1,5 @@
 ﻿namespace Eskon_APIs.Abstraction.Consts;
+
 public static class DefaultRoles
 {
     public const string Admin = nameof(Admin);

@@ -8,13 +8,13 @@ public class LocationResponse
     /// <summary>
     /// Gets or sets the unique identifier of the location.
     /// </summary>
-  public int LocationId { get; set; }
+    public int LocationId { get; set; }
 
     /// <summary>
     /// Gets or sets the country of the location.
     /// </summary>
     /// <remarks>
-  /// The country name where the location is situated.
+    /// The country name where the location is situated.
     /// Examples: "Egypt", "United States", "United Kingdom"
     /// </remarks>
     public string Country { get; set; } = string.Empty;
@@ -30,14 +30,14 @@ public class LocationResponse
 
     /// <summary>
     /// Gets or sets the postal code of the location.
-  /// </summary>
+    /// </summary>
     /// <remarks>
     /// The postal/zip code. This field is optional.
     /// Examples: "12345", "SW1A 1AA"
     /// </remarks>
     public string? PostalCode { get; set; }
 
- /// <summary>
+    /// <summary>
     /// Gets or sets the street name of the location.
     /// </summary>
     /// <remarks>
@@ -50,8 +50,8 @@ public class LocationResponse
     /// Gets or sets the building number of the location.
     /// </summary>
     /// <remarks>
- /// The building or house number on the street.
- /// Examples: "123", "Building A", "Tower 5"
+    /// The building or house number on the street.
+    /// Examples: "123", "Building A", "Tower 5"
     /// </remarks>
     public string BuildingNumber { get; set; } = string.Empty;
 

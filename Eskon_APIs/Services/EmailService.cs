@@ -1,8 +1,8 @@
-﻿using MailKit.Net.Smtp;
+﻿using Eskon_APIs.Settings;
+using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using MimeKit;
-using Eskon_APIs.Settings;
 
 namespace Eskon_APIs.Services;
 

@@ -1,10 +1,5 @@
 using Eskon_APIs.Contracts.Users;
-using Eskon_APIs.Entities;
 using Eskon_APIs.Errors;
-using Eskon_APIs.Helpers;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace Eskon_APIs.Services;
 

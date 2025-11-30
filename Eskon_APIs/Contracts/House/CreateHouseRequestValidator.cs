@@ -10,7 +10,7 @@ public class CreateHouseRequestValidator : AbstractValidator<CreateHouseRequest>
 
         RuleFor(x => x.Description)
             .NotEmpty();
-        
+
         RuleFor(x => x.PricePerMonth)
             .NotEmpty();
 

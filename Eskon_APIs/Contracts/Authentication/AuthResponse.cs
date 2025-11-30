@@ -1,6 +1,6 @@
 ﻿namespace Eskon_APIs.Contracts.Authentication;
 
-public record  AuthResponse(
+public record AuthResponse(
     string Id,
     string? Email,
     string FirstName,

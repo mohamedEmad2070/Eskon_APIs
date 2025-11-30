@@ -1,7 +1,7 @@
 ﻿namespace Eskon_APIs.Contracts.Authentication;
 
 
-public record ConfirmEmailRequest (
+public record ConfirmEmailRequest(
     string Email,
     string Code
     );

@@ -47,7 +47,7 @@ public class LocationService : ILocationService
     {
         var location = await _context.Location.FindAsync(id, cancellationToken);
 
-        return location is not null 
+        return location is not null
             ? Result.Success(location.Adapt<LocationResponse>())
             : Result.Failure<LocationResponse>(LocationErrors.LocationNotFound);
     }

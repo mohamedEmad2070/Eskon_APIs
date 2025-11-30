@@ -1,6 +1,5 @@
-﻿using Eskon_APIs.Abstraction;
+﻿namespace Eskon_APIs.Errors;
 
-namespace Eskon_APIs.Errors;
 public static class UserErrors
 {
     public static readonly Error InvalidCredentials =

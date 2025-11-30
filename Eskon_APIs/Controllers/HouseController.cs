@@ -1,9 +1,5 @@
 ﻿using Eskon_APIs.Contracts.House;
 using Eskon_APIs.Contracts.MediaItem;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace Eskon_APIs.Controllers;
@@ -259,7 +255,7 @@ public class HouseController : ControllerBase
     /// </summary>
     /// <remarks>
     /// This endpoint allows the house owner or administrators to upload images for a house listing.
- /// 
+    /// 
     /// Requirements:
     /// - User must be authenticated with role 'Member' or 'Admin'
     /// - User must be the owner of the house or an administrator
@@ -273,7 +269,7 @@ public class HouseController : ControllerBase
     /// - Images are stored securely with unique identifiers
     /// - Returns media item details including URL and sort order
     /// 
-  /// The uploaded image will be assigned a unique media ID and can be:
+    /// The uploaded image will be assigned a unique media ID and can be:
     /// - Set as the cover image using the set-cover endpoint
     /// - Deleted using the delete endpoint
     /// - Reordered within the gallery
@@ -313,8 +309,8 @@ public class HouseController : ControllerBase
     }
 
     /// <summary>
- /// Deletes an image from a house listing.
- /// </summary>
+    /// Deletes an image from a house listing.
+    /// </summary>
     /// <remarks>
     /// This endpoint allows the house owner or administrators to delete an image from a house listing.
     /// 
@@ -374,21 +370,21 @@ public class HouseController : ControllerBase
     /// Behavior:
     /// - Sets the IsCover flag to true for the specified media item
     /// - Automatically sets IsCover to false for any previously set cover image
- /// - Only one image can be the cover image at a time
+    /// - Only one image can be the cover image at a time
     /// - The cover image is displayed as the thumbnail/main image for the house in listings
     /// 
     /// Best Practices:
     /// - Set a high-quality, well-lit image as the cover
-  /// - Ensure the cover image effectively represents the property
+    /// - Ensure the cover image effectively represents the property
     /// - Update the cover image when you change the main presentation of the property
     /// </remarks>
     /// <param name="houseId">The unique identifier of the house.</param>
     /// <param name="mediaItemId">The unique identifier of the media item to set as cover.</param>
     /// <param name="cancellationToken">Cancellation token for the async operation.</param>
-/// <returns>No content on success.</returns>
+    /// <returns>No content on success.</returns>
     /// <response code="204">Cover image set successfully.</response>
     /// <response code="401">Unauthorized - user is not authenticated.</response>
-  /// <response code="403">Forbidden - user is not the house owner or admin.</response>
+    /// <response code="403">Forbidden - user is not the house owner or admin.</response>
     /// <response code="404">House or media item not found.</response>
     [HttpPut("{houseId}/images/{mediaItemId}/set-cover")]
     [Authorize(Roles = "Member, Admin")]

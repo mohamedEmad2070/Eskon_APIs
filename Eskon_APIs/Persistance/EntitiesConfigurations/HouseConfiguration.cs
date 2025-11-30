@@ -33,7 +33,7 @@ public class HouseConfiguration : IEntityTypeConfiguration<House>
             .WithMany(l => l.Houses)
             .HasForeignKey(h => h.LocationId)
             .IsRequired()
-            .OnDelete(DeleteBehavior.Restrict); 
+            .OnDelete(DeleteBehavior.Restrict);
         #endregion
 
         builder.HasIndex(h => h.LocationId);

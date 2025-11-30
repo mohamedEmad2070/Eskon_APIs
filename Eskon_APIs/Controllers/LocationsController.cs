@@ -1,7 +1,4 @@
 ﻿using Eskon_APIs.Contracts.Location;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Eskon_APIs.Controllers;
 
@@ -114,8 +111,8 @@ public class LocationsController : ControllerBase
     {
         var addedLocationResult = await _locationService.AddAsync(locationRequest, cancellationToken);
 
-        return addedLocationResult.IsSuccess 
-            ? CreatedAtAction(nameof(Get), new {id = addedLocationResult.Value.LocationId}, addedLocationResult.Value)
+        return addedLocationResult.IsSuccess
+            ? CreatedAtAction(nameof(Get), new { id = addedLocationResult.Value.LocationId }, addedLocationResult.Value)
             : Problem(statusCode: StatusCodes.Status400BadRequest, title: addedLocationResult.Error.Code, detail: addedLocationResult.Error.Description);
     }
 
@@ -158,8 +155,8 @@ public class LocationsController : ControllerBase
     {
         var updateResult = await _locationService.UpdateAsync(id, locationRequest, cancellationToken);
 
-         return updateResult.IsSuccess ? NoContent() 
-            : Problem(statusCode: StatusCodes.Status404NotFound, title: updateResult.Error.Code, detail: updateResult.Error.Description);
+        return updateResult.IsSuccess ? NoContent()
+           : Problem(statusCode: StatusCodes.Status404NotFound, title: updateResult.Error.Code, detail: updateResult.Error.Description);
     }
 
     /// <summary>

@@ -1,12 +1,12 @@
 ﻿using Eskon_APIs.Abstraction.Consts;
-using Eskon_APIs.Entities;
 
 namespace Eskon_APIs.Persistance.EntitiesConfigurations;
+
 public class UserConfiguration : IEntityTypeConfiguration<ApplicationUser>
 {
     public void Configure(EntityTypeBuilder<ApplicationUser> builder)
     {
-        builder.OwnsMany(x=> x.RefreshTokens)
+        builder.OwnsMany(x => x.RefreshTokens)
             .ToTable("RefreshTokens")
             .WithOwner().HasForeignKey("UserId");
         builder.Property(x => x.FirstName).HasMaxLength(100);
